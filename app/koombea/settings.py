@@ -15,6 +15,12 @@ AUTH_USER_MODEL = 'accounts.User'
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '').split(',')
 
+CSRF_TRUSTED_ORIGINS = environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+
+SECRET_KEY = environ.get('SECRET_KEY', '').split(',')
+
+DEBUG = int(environ.get('DJANGO_DEBUG', 0))
+
 # Sentry
 
 sentry_sdk.init(
