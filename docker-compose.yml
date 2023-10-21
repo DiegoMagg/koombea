@@ -20,7 +20,7 @@ services:
     container_name: koombea-web
     command: pipenv run gunicorn koombea.wsgi --bind 0:9010 --timeout 120 --log-level debug
     depends_on:
-      - migrations
+      - koombea-migrations
     ports:
       - 9010:9010
     restart: on-failure
