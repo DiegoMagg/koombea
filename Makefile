@@ -12,6 +12,9 @@ up:
 down:
 	docker compose down
 
+shell:
+	cd app && pipenv run python manage.py shell
+
 postgres-up:
 	docker compose up koombea-postgres -d
 
@@ -22,6 +25,9 @@ migrations:
 migrate:
 	cd app && pipenv run python manage.py migrate
 	cd ..
+
+superuser:
+	cd app && pipenv run python manage.py createsuperuser
 
 dev-server-up: postgres-up migrate
 	cd app && pipenv run python manage.py runserver 0:8000

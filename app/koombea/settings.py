@@ -1,14 +1,45 @@
 from os import environ, path
 
+import sentry_sdk
 from koombea.default_settings import *
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Django
 
 INSTALLED_APPS += [
     'accounts',
+    'page',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '').split(',')
+
+# Sentry
+
+sentry_sdk.init(
+    dsn=environ.get('SENTRY_DSN', ''),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+)
+
+# Static files
+
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+    }
+}
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
 
 DATABASES = {
     'default': {
@@ -21,7 +52,7 @@ DATABASES = {
     },
 }
 
-LOGIN_REDIRECT_URL = '/page-urls'
+LOGIN_REDIRECT_URL = '/page'
 
 # Template
 
@@ -35,3 +66,5 @@ TEMPLATES += [
         },
     },
 ]
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

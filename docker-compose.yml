@@ -37,8 +37,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - koombea_pg_data:/var/lib/postgresql/data/
+      - pg_data:/var/lib/postgresql/data/
     restart: on-failure
 
 volumes:
-  koombea_pg_data:
+  pg_data:
