@@ -18,11 +18,11 @@ services:
   koombea-web:
     <<: *base
     container_name: koombea-web
-    command: pipenv run gunicorn koombea.wsgi --bind 0:9010 --timeout 120 --log-level debug
+    command: pipenv run gunicorn koombea.wsgi --bind 0:9020 --timeout 120 --log-level debug
     depends_on:
       - koombea-migrations
     ports:
-      - 9010:9010
+      - 9020:9020
     restart: on-failure
 
   koombea-migrations:
@@ -35,7 +35,7 @@ services:
     container_name: koombea-postgres
     image: postgres:15.2-alpine
     ports:
-      - 5432:5432
+      - 5440:5440
     volumes:
       - pg_data:/var/lib/postgresql/data/
     restart: on-failure
