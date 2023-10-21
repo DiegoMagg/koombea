@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+requests = "*"
+sentry-sdk = {extras = ["django"], version = "*"}
+whitenoise = "*"
+jinja2 = "*"
+beautifulsoup4 = "*"
+
+[dev-packages]
+pytest-django = "*"
+pytest-mock = "*"
+pytest = "*"
+pre-commit = "*"
+coverage = "*"
+yapf = "*"
+ipython = "*"
+flake8 = "*"
+model-bakery = "*"
+
+[requires]
+python_version = "3.11"

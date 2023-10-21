@@ -1,0 +1,44 @@
+version: "3.8"
+
+x-environ: &environ
+  env_file: ./app/.env
+
+x-base: &base
+  <<: *environ
+  build:
+    context: .
+    dockerfile: ./deploy/images/Dockerfile
+  env_file: ./app/.env
+  restart: on-failure
+  image: koombea
+  volumes:
+    - ./app:/app
+
+services:
+  koombea-web:
+    <<: *base
+    container_name: koombea-web
+    command: pipenv run gunicorn koombea.wsgi --bind 0:9010 --timeout 120 --log-level debug
+    depends_on:
+      - migrations
+    ports:
+      - 9010:9010
+    restart: on-failure
+
+  koombea-migrations:
+    <<: *base
+    container_name: koombea-migrations
+    command: pipenv run python manage.py migrate
+
+  koombea-postgres:
+    <<: *environ
+    container_name: koombea-postgres
+    image: postgres:15.2-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - koombea_pg_data:/var/lib/postgresql/data/
+    restart: on-failure
+
+volumes:
+  koombea_pg_data:

@@ -1,0 +1,12 @@
+[run]
+omit =
+    *__init__.py,
+    env/*,
+    venv/*,
+    bullish/celery.py,
+    *admin.py,
+    */migrations/*,
+
+[report]
+show_missing = true
+fail_under = 90
