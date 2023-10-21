@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% import "/macros/forms.html" as f %}
+{% import "/macros/elements.html" as e %}
+
+{% block head %}
+<title>Page link scrapper - Urls</title>
+{% endblock %}
+{% block body %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="mt-10 sm:mx-auto sm:w-full">
+    <form class="space-y-6" method="POST" action='url/parse'>
+      {{ csrf_input }}
+    <div data-style="clean" class="flex items-end mb-3">
+      <div data-element="fields" data-stacked="false" class="flex items-center w-full max-w-md mb-3">
+          <div class="relative w-full mr-3">
+            <input id="id_url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="url" aria-label="url" placeholder="URL" required="" type="url">
+          </div>
+          <button data-element="submit" class="formkit-submit">
+            <span class="flex w-full justify-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-60">Scrape</span>
+          </button>
+      </div>
+    </div>
+    </form>
+    <div class="table-auto">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">Name</th>
+            <th scope="col" class="px-6 py-3">Total Links</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in page_obj %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <a {% if i.status == 'success' %}href="detail/{{i.name}}"{%else%}{%endif%}>{{ i.name }}</a>
+            </th>
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {% if i.total_links == None %}
+              {{i.status}}
+            {% else %}
+              {{ i.total_links }}
+            {% endif %}
+            </th>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <nav class="flex min-h-full flex-row justify-center p-10" aria-label="Page navigation">
+      <ul class="inline-flex -space-x-px text-sm">
+        {% if page_obj.has_previous() %}
+        <li>
+          <a href="?page={{ page_obj.previous_page_number() }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+        </li>
+        {% else %}
+        <li>
+          <a href="#" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+        </li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+          <li>
+            <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{i}}</a>
+          </li>
+          {% else %}
+          <li>
+            <a href="?page={{ i }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{i}}</a>
+          </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next() %}
+        <li>
+          <a href="?page={{ page_obj.next_page_number() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+        </li>
+        {% else %}
+        <li>
+          <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
