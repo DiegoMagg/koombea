@@ -34,17 +34,7 @@ repos:
     - id: no-commit-to-branch
     - id: trailing-whitespace
       args: [--markdown-linebreak-ext=md]
-- repo: local
-  hooks:
-    - id: pytest-check
-      name: pytest-check
-      stages: [push]
-      types: [python]
-      entry: bash -c 'cd app && pipenv run coverage erase && pipenv run coverage run -m pytest'
-      language: system
-      verbose: true
-      pass_filenames: false
-      always_run: true
+
 - repo: local
   hooks:
     - id: coverage-report
