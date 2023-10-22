@@ -1,0 +1,54 @@
+version: "3.8"
+
+x-environ: &environ
+  environment:
+    - ALLOWED_HOSTS='*'
+    - CSRF_TRUSTED_ORIGINS='http://localhost'
+    - POSTGRES_DB=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_HOST=koombea-postgres
+    - SECRET_KEY='develop-u0@vdscckh9+9_f!^i&2los9lu&3(-o$^_9msjsjr+zw466u1i'
+
+x-base: &base
+  <<: *environ
+  build:
+    context: .
+    dockerfile: ./deploy/images/Dockerfile
+  restart: on-failure
+  image: koombea:local
+  volumes:
+    - ./app:/app
+
+services:
+  koombea-web:
+    <<: *base
+    container_name: koombea-web
+    command: pipenv run gunicorn koombea.wsgi --bind 0:9020 --timeout 120 --log-level debug
+    depends_on:
+      - koombea-postgres
+      - koombea-migrations
+    ports:
+      - 9020:9020
+    restart: on-failure
+
+  koombea-migrations:
+    <<: *base
+    container_name: koombea-migrations
+    command: pipenv run python manage.py migrate
+    depends_on:
+      - koombea-postgres
+
+  koombea-postgres:
+    <<: *environ
+    container_name: koombea-postgres
+    image: postgres:15.2-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    restart: on-failure
+
+
+volumes:
+  pg_data:

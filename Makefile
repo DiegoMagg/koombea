@@ -16,18 +16,24 @@ shell:
 	cd app && pipenv run python manage.py shell
 
 postgres-up:
-	docker compose -f databases.yml up -d
+	docker compose -f local.yml up koombea-postgres -d
 
-migrations:
+migrations: postgres-up
 	cd app && pipenv run python manage.py makemigrations
 	cd ..
 
-migrate:
+migrate: postgres-up
 	cd app && pipenv run python manage.py migrate
 	cd ..
 
-superuser:
+superuser: postgres-up
 	cd app && pipenv run python manage.py createsuperuser
+
+local-up:
+	docker compose -f local.yml up -d
+
+local-down:
+	docker compose -f local.yml down
 
 dev-server-up: postgres-up migrate
 	cd app && pipenv run python manage.py runserver 0:8000

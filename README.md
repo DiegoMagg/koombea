@@ -1,5 +1,6 @@
 # Koombea Challenge
 
+[![codecov](https://codecov.io/gh/DiegoMagg/koombea/graph/badge.svg?token=S9242WZYHA)](https://codecov.io/gh/DiegoMagg/koombea)
 ![python](https://img.shields.io/badge/python-3.11-blue)
 
 This repository is my solution proposal to a challenge given to me by [Koombea](https://www.koombea.com/) as part of interviewing process as a Back End Engineer.
@@ -51,14 +52,35 @@ To help testing, this project is up and running at https://https://diegomagg.com
  - Docker compose
  - Make (optional)
 
+### 1 - Using docker compose
 
+Using make
 ```bash
-$ git clone git@github.com:DiegoMagg/koombea.git && cd koombea/app && pipenv install
+$ git clone git@github.com:DiegoMagg/koombea.git && cd koombea && make local-up
 ```
 
-Create a .env file inside the app folder with those environment variables:
+Without make
+```bash
+$ git clone git@github.com:DiegoMagg/koombea.git
+$ cd koombea
+$ docker compose -f local.yml up -d
+```
+
+After the build process, the application will be available at http://localhost:9020/accounts/login
+
+
+### 2 - Django development server (This method requires python 3.11 installed)
 
 ```bash
+$ git clone git@github.com:DiegoMagg/koombea.git
+$ cd koombea
+$ touch app/.env
+```
+
+Create some environment variables
+
+```bash
+$ tee app/.env << END
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
@@ -66,25 +88,23 @@ POSTGRES_HOST=localhost
 ALLOWED_HOSTS=localhost
 CSRF_TRUSTED_ORIGINS='http://localhost'
 SECRET_KEY='y+*m(m4q-2y%xa9#i2=_bq9bvu_ka*toufahnyvc+5-x+dgemu'
+END
 ```
 
-note: this secret key was generated for local use only.
+then run
 
-
-If you have make then:
-``` bash
-    $ make install
-    $ make dev-server-up
+```
+$ make install
+$ make dev-server-up
 ```
 
-This command will create a postgres instance, run the migrations and start the django devserver at http://localhost:8000
-
-You you don't have make, then:
+or
 
 ```bash
-    $ docker compose -f databases.yml up -d
-    $ cd app && pipenv install && pipenv run python manage.py migrate
-    $ pipenv run python manage.py runserver 0:8000
+    cd app
+    pipenv install
+    docker compose -f local.yml koombea-postgres up -d
+    pipenv run python manage.py runserver 0:8000
 ```
 
 
@@ -96,6 +116,6 @@ Testing:
 or
 
 ```bash
-    $ docker compose -f databases.yml up -d
+    $ docker compose -f local.yml koombea-postgres up -d
     $ cd app && pipenv run pytest
 ```
