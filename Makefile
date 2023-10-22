@@ -16,7 +16,7 @@ shell:
 	cd app && pipenv run python manage.py shell
 
 postgres-up:
-	docker compose up koombea-postgres -d
+	docker compose -f databases.yml up -d
 
 migrations:
 	cd app && pipenv run python manage.py makemigrations

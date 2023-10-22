@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  koombea-postgres:
+    container_name: koombea-postgre
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    restart: on-failure
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    name: postgres
+
+volumes:
+  pg_data:
