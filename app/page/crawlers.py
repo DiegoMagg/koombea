@@ -19,7 +19,8 @@ async def page_links_crawler(request, url: str, page_content: PageContent):
         page_content.status = PageContent.SUCCESS
     except Exception as e:
         messages.warning(request, e)
-        await page_content.adelete()
+        if page_content.links is None:
+            await page_content.adelete()
         return
     await page_content.asave()
     return page_content
