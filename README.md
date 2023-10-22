@@ -5,6 +5,7 @@
 This repository is my solution proposal to a challenge given to me by [Koombea](https://www.koombea.com/) as part of interviewing process as a Back End Engineer.
 
 ## Tools used
+- python 3.11
 - pipenv
 - django
 - beautifulsoup
@@ -67,6 +68,7 @@ note: this secret key was generated for local use only.
 
 If you have make then:
 ``` bash
+    $ make install
     $ make dev-server-up
 ```
 
@@ -76,7 +78,7 @@ You you don't have make, then:
 
 ```bash
     $ docker compose -f databases.yml up -d
-    $ cd app && pipenv run python manage.py migrate
+    $ cd app && pipenv install && pipenv run python manage.py migrate
     $ pipenv run python manage.py runserver 0:8000
 ```
 
