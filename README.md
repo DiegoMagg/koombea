@@ -24,14 +24,19 @@ To help testing, this project is up and running at https://https://diegomagg.com
 ## Testing:
 
 1 - Go to the link above, click register. On the form provide an username and a password (requirement 1)
+
 2 - After register click on back to Login and use the credentials to log in (requirement 2)
+
 3 - After logging in, you will be redirected to the home page. Initially, no data will be displayed because there are no records linked to the user. (requirement 4)
+
 4 - On the initial page, insert an url it need to be http or https like https://google.com
+
 5 - The scrapper will grab the anchors from the page and you'll be able to see the results. (requirent 5 and 4)
 
 
-##Nice to have
+## Nice to have
 1 - Pagination
+
 2 - Being processed page
 
 ## Observation
