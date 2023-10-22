@@ -1,5 +1,6 @@
 # Koombea Challenge
 
+[![codecov](https://codecov.io/gh/DiegoMagg/koombea/graph/badge.svg?token=S9242WZYHA)](https://codecov.io/gh/DiegoMagg/koombea)
 ![python](https://img.shields.io/badge/python-3.11-blue)
 
 This repository is my solution proposal to a challenge given to me by [Koombea](https://www.koombea.com/) as part of interviewing process as a Back End Engineer.
