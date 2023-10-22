@@ -19,7 +19,7 @@ This repository is my solution proposal to a challenge given to me by [Koombea](
 - yapf
 
 
-To help testing, this project is up and running at https://https://diegomagg.com.br until the end of the process.
+To help testing, this project is up and running at https://diegomagg.com.br until the end of the process.
 
 
 ## Testing:
