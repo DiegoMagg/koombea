@@ -2,7 +2,7 @@ version: "3.8"
 
 x-environ: &environ
   environment:
-    - ALLOWED_HOSTS='*'
+    - ALLOWED_HOSTS=localhost
     - CSRF_TRUSTED_ORIGINS='http://localhost'
     - POSTGRES_DB=postgres
     - POSTGRES_USER=postgres
